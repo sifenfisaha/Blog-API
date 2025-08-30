@@ -25,7 +25,9 @@ export const validate =
       if (error instanceof ZodError) {
         return res.status(400).json({
           success: false,
-          errors: error.message,
+          errors: error.issues.map((issue) => {
+            return { path: issue.path.join("."), message: issue.message };
+          }),
         });
       }
       next(error);
