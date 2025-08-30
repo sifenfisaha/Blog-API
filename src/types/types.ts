@@ -8,3 +8,17 @@ export interface Iuser extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IBlog extends Document {
+  _id: ObjectId;
+  title: string;
+  description: string;
+  body: string;
+  tags: string[];
+  author: ObjectId;
+  state: "draft" | "published";
+  read_count: number;
+  reading_time: number;
+  timestamp: Date;
+  updatedAt: Date;
+}
