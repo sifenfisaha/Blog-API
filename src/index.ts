@@ -1,4 +1,7 @@
 import { env } from "./config/env";
 import app from "./app";
+import conndectDb from "./db/mongo";
 
-app.listen(env.PORT, () => console.log(`aurverrunning on port ${env.PORT}`));
+conndectDb(() => {
+  app.listen(env.PORT, () => console.log(`server running on port ${env.PORT}`));
+});
