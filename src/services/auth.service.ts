@@ -39,7 +39,7 @@ export class AuthService {
 
     const userId = user._id.toString();
 
-    const token = TokenService.genrateToken({ userId });
+    const token = TokenService.generateToken({ userId });
     const safeUser = {
       first_name: user.first_name,
       last_name: user.last_name,
