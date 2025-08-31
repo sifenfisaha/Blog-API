@@ -48,3 +48,21 @@ export const blogQuerySchema = z.object({
   sortBy: z.enum(["read_count", "reading_time", "createdAt"]).optional(),
   order: z.enum(["asc", "desc"]).optional(),
 });
+export const publicBlogQuerySchema = z.object({
+  page: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 1)),
+  limit: z
+    .string()
+    .optional()
+    .transform((val) => (val ? parseInt(val) : 20)),
+  search: z.string().optional(),
+  tags: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(",") : [])),
+  author: z.string().optional(),
+  sortBy: z.enum(["read_count", "reading_time", "createdAt"]).optional(),
+  order: z.enum(["asc", "desc"]).optional(),
+});

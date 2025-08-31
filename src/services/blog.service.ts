@@ -1,5 +1,5 @@
 import z from "zod";
-import { createBlogSchema } from "../utils/schemas";
+import { createBlogSchema, publicBlogQuerySchema } from "../utils/schemas";
 import Blog from "../models/blog.model";
 import { calculateReadingTime } from "../utils/readingTime";
 import { Types } from "mongoose";
@@ -8,6 +8,8 @@ import { UpdateBlog } from "../controllers/blog.controller";
 type CreateInput = z.infer<typeof createBlogSchema> & {
   userId: Types.ObjectId;
 };
+
+export type Query = z.infer<typeof publicBlogQuerySchema>;
 
 export class BlogService {
   static async createBlog({
@@ -77,6 +79,56 @@ export class BlogService {
   static async deleteBlog(userId: string, blogId: string) {
     const blog = await Blog.findOneAndDelete({ _id: blogId, author: userId });
     if (!blog) throw new Error("Blog not found");
+
+    return blog;
+  }
+  static async listPublishedBlogs(query: any) {
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      tags,
+      author,
+      sortBy = "createdAt",
+      order = "desc",
+    } = query;
+
+    const filter: any = { state: "published" };
+
+    if (search) {
+      filter.title = { $regex: search, $options: "i" };
+    }
+
+    if (tags && tags.length > 0) {
+      filter.tags = { $in: tags };
+    }
+
+    if (author) {
+      filter.author = author;
+    }
+
+    const sort: any = {};
+    sort[sortBy] = order === "asc" ? 1 : -1;
+
+    const blogs = await Blog.find(filter)
+      .populate("author", "first_name last_name email")
+      .sort(sort)
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const total = await Blog.countDocuments(filter);
+    return { blogs, total, page, limit };
+  }
+  static async getPublishedBlog(blogId: string) {
+    const blog = await Blog.findOne({
+      _id: blogId,
+      state: "published",
+    }).populate("author", "first_name last_name email");
+
+    if (!blog) throw new Error("Blog not found");
+
+    blog.read_count = (blog.read_count || 0) + 1;
+    await blog.save();
 
     return blog;
   }

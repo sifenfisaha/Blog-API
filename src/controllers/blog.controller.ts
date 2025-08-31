@@ -100,3 +100,32 @@ export const deletBlog = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const listPublishedBlogs = async (req: Request, res: Response) => {
+  const query = req.query;
+  try {
+    const result = await BlogService.listPublishedBlogs(query);
+
+    return res.status(200).json({ success: true, ...result });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error instanceof Error ? error.message : error,
+    });
+  }
+};
+
+export const getPublishedBlog = async (req: Request, res: Response) => {
+  try {
+    const blogId = req.params.id;
+
+    const blog = await BlogService.getPublishedBlog(blogId);
+
+    return res.status(200).json({ success: true, blog });
+  } catch (error) {
+    return res.status(404).json({
+      success: false,
+      message: error instanceof Error ? error.message : error,
+    });
+  }
+};

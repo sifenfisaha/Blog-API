@@ -3,6 +3,7 @@ import {
   createBlog,
   deletBlog,
   getMyBlog,
+  listPublishedBlogs,
   publishBlog,
   updateBlog,
 } from "../controllers/blog.controller";
@@ -12,10 +13,13 @@ import {
   blogIdParamSchema,
   blogQuerySchema,
   createBlogSchema,
+  publicBlogQuerySchema,
   updateBlogSchema,
 } from "../utils/schemas";
 
 const router = Router();
+
+router.get("/", listPublishedBlogs);
 
 router.post(
   "/",
