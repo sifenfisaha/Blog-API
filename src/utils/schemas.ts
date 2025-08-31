@@ -66,3 +66,10 @@ export const publicBlogQuerySchema = z.object({
   sortBy: z.enum(["read_count", "reading_time", "createdAt"]).optional(),
   order: z.enum(["asc", "desc"]).optional(),
 });
+
+export const updateUserSchema = z.object({
+  first_name: z.string().min(1).optional(),
+  last_name: z.string().min(1).optional(),
+  email: z.string().email().optional(),
+  password: z.string().min(6).optional(),
+});
