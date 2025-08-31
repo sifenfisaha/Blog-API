@@ -3,6 +3,7 @@ import {
   createBlog,
   deletBlog,
   getMyBlog,
+  getPublishedBlog,
   listPublishedBlogs,
   publishBlog,
   updateBlog,
@@ -19,7 +20,16 @@ import {
 
 const router = Router();
 
-router.get("/", listPublishedBlogs);
+router.get(
+  "/me",
+  validate({ query: blogQuerySchema }),
+  isAutenticated,
+  getMyBlog
+);
+
+router.get("/", validate({ query: publicBlogQuerySchema }), listPublishedBlogs);
+
+router.get("/:id", getPublishedBlog);
 
 router.post(
   "/",
@@ -28,12 +38,6 @@ router.post(
   createBlog
 );
 
-router.get(
-  "/me",
-  validate({ query: blogQuerySchema }),
-  isAutenticated,
-  getMyBlog
-);
 router.put(
   "/:id",
   validate({ body: updateBlogSchema }),
