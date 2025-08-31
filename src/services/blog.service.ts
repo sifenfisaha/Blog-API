@@ -43,7 +43,7 @@ export class BlogService {
     page = 1,
     limit = 20
   ) {
-    const query: any = { autorId: userId };
+    const query: any = { author: userId };
     if (state) query.state = state;
 
     const blogs = await Blog.find(query)

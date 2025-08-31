@@ -31,7 +31,7 @@ export const createBlog = async (req: Request, res: Response) => {
 
 export const getMyBlog = async (req: Request, res: Response) => {
   const userId = (req as any).userId;
-  const { state, page, limit } = req.params;
+  const { state, page, limit } = req.query;
 
   try {
     const result = await BlogService.getMyBlogs(
