@@ -13,7 +13,7 @@ const router = Router();
 router.use(isAutenticated);
 
 router.get("/me", getProfile);
-router.put("/", validate({ body: updateUserSchema }), updateProfile);
-router.delete("/", deletUser);
+router.put("/me", validate({ body: updateUserSchema }), updateProfile);
+router.delete("/me", deletUser);
 
 export default router;
