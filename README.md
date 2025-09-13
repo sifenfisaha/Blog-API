@@ -3,7 +3,7 @@
 A RESTful API for a blogging platform built with **Node.js**, **Express.js**, **TypeScript**, and **MongoDB**.
 The API supports authentication, blog management, pagination, search, filtering, and sorting.
 
-## Features
+
 
 - User authentication with JWT (1-hour expiry)
 - User profile management
