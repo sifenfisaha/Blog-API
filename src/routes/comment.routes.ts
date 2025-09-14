@@ -5,10 +5,17 @@ import {
   deletComment,
   GetComment,
 } from "../controllers/comment.controller";
+import { validate } from "../middlewares/validate.middleware";
+import { contentSchema } from "../utils/schemas";
 
 const router = Router();
 
-router.post("/:blogId", isAutenticated, createComment);
+router.post(
+  "/:blogId",
+  validate({ body: contentSchema }),
+  isAutenticated,
+  createComment
+);
 
 router.get("/:blogId", GetComment);
 
