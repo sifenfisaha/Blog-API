@@ -52,7 +52,7 @@ export class CommentService {
         ? blog.author.toString()
         : blog.author;
 
-    if (commentAuthor === userId || blogAuthor !== userId) {
+    if (commentAuthor === userId || blogAuthor === userId) {
       await Comment.findByIdAndDelete(commentId);
     } else {
       throw new Error("Not authorized");
