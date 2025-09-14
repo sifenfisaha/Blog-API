@@ -30,9 +30,9 @@ export class CommentService {
 
     if (!blog) throw new Error("Blog not found");
 
-    const comment = await Comment.findOne({ blog: blogId })
+    const comment = await Comment.find({ blog: blogId })
       .populate("author", "first_name last_name email")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 });
     return comment;
   }
   static async deleteComment({ userId, commentId }: DeleteComment) {
