@@ -22,3 +22,9 @@ export interface IBlog extends Document {
   timestamp: Date;
   updatedAt: Date;
 }
+
+export interface Icomment extends Document {
+  content: string;
+  author: ObjectId;
+  blog: ObjectId;
+}
