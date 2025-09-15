@@ -1,4 +1,4 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { mongo, Schema } from "mongoose";
 import { IBlog } from "../types/types";
 
 const blogSchema = new mongoose.Schema<IBlog>(
@@ -31,10 +31,15 @@ const blogSchema = new mongoose.Schema<IBlog>(
       required: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: "User",
       required: true,
     },
+    likes: {
+      type: Number,
+      default: 0,
+    },
+    likedBy: [{ type: mongoose.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
