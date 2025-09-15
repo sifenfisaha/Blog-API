@@ -1,4 +1,4 @@
-import { Document, ObjectId } from "mongoose";
+import mongoose, { Document, ObjectId } from "mongoose";
 export interface Iuser extends Document {
   _id: ObjectId;
   first_name: string;
@@ -19,6 +19,8 @@ export interface IBlog extends Document {
   state: "draft" | "published";
   read_count: number;
   reading_time: number;
+  likes: number;
+  likedBy: mongoose.Types.ObjectId[];
   timestamp: Date;
   updatedAt: Date;
 }
