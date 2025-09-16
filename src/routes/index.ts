@@ -3,6 +3,7 @@ import blogRouter from "./blog.routes";
 import UserRouter from "./user.routes";
 import commentRouter from "./comment.routes";
 import likeRouter from "./like.routes";
+import bookmarkRouter from "./bookmark.routes";
 import { Router } from "express";
 
 const router = Router();
@@ -12,5 +13,6 @@ router.use("/blog", blogRouter);
 router.use("/user", UserRouter);
 router.use("/comment", commentRouter);
 router.use("/like", likeRouter);
+router.use("/bookmarks", bookmarkRouter);
 
 export default router;
