@@ -34,8 +34,6 @@ This API supports **authentication**, **blog management**, **comments**, **likes
 git clone https://github.com/sifenfisaha/Blog-API.git
 ```
 
-````
-
 2. Install dependencies:
 
 ```bash
@@ -57,8 +55,6 @@ JWT_EXPIRES_IN=1h
 npm run dev
 ```
 
-
-
 ## Available Scripts
 
 | Command         | Description                                        |
@@ -67,8 +63,6 @@ npm run dev
 | `npm run build` | Compile TypeScript files to JavaScript             |
 | `npm start`     | Run the compiled server                            |
 | `npm test`      | Run tests using Jest & Supertest                   |
-
-
 
 ## API Endpoints
 
@@ -99,7 +93,6 @@ npm run dev
 | PATCH  | `/blog/:id/publish` | Publish a blog                                                | Private, owner only |
 | DELETE | `/blog/:id`         | Delete a blog                                                 | Private, owner only |
 
-
 ### Comments
 
 | Method | Endpoint              | Description              | Access                |
@@ -107,8 +100,6 @@ npm run dev
 | POST   | `/comment/:blogId`    | Add a comment to a blog  | Private               |
 | GET    | `/comment/:blogId`    | List comments for a blog | Public                |
 | DELETE | `/comment/:commentId` | Delete a comment         | Private (owner/admin) |
-
-
 
 ### Likes/Upvotes
 
@@ -125,8 +116,6 @@ npm run dev
 | POST   | `/bookmark/:blogId/toggle` | Toggle bookmark for a blog | Private |
 | GET    | `/bookmark/me`             | Get all bookmarked blogs   | Private |
 
-
-
 ## Pagination, Sorting & Search
 
 - **Pagination**: `page` & `limit` query parameters
@@ -140,29 +129,21 @@ Example:
 GET /blog/search?query=react&state=published&sortBy=popular&page=1&limit=10
 ```
 
-
-
 ## Reading Time Calculation
 
 - Formula: `reading_time = Math.ceil(totalWords / 200)`
 - Automatically calculated on blog creation
-
-
 
 ## Input Validation
 
 - Uses **Zod** for validating request bodies
 - Ensures data correctness and prevents invalid submissions
 
-
-
 ## Authorization & Security
 
 - Only blog owners can edit/delete their blogs
 - JWT is required for protected routes
 - Passwords are hashed using bcrypt
-
-
 
 ## Testing
 
@@ -173,13 +154,9 @@ GET /blog/search?query=react&state=published&sortBy=popular&page=1&limit=10
 npm test
 ```
 
-
-
 ## License
 
 This project is licensed under the **MIT License**.
-
-
 
 ## Contributing
 
@@ -194,4 +171,5 @@ This project is licensed under the **MIT License**.
 ## About
 
 A professional, production-ready backend API for a blogging platform built with Node.js, Express, TypeScript, and MongoDB.
-````
+
+
