@@ -7,6 +7,7 @@ export interface Iuser extends Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  bookmarks: mongoose.Types.ObjectId[];
 }
 
 export interface IBlog extends Document {
