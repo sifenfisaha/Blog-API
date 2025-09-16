@@ -62,7 +62,6 @@ npm run dev
 | `npm run dev`   | Run the server in development mode with hot reload |
 | `npm run build` | Compile TypeScript files to JavaScript             |
 | `npm start`     | Run the compiled server                            |
-| `npm test`      | Run tests using Jest & Supertest                   |
 
 ## API Endpoints
 
@@ -145,15 +144,6 @@ GET /blog/search?query=react&state=published&sortBy=popular&page=1&limit=10
 - JWT is required for protected routes
 - Passwords are hashed using bcrypt
 
-## Testing
-
-- Unit & integration tests using **Jest** and **Supertest**
-- Example:
-
-```bash
-npm test
-```
-
 ## License
 
 This project is licensed under the **MIT License**.
@@ -171,5 +161,3 @@ This project is licensed under the **MIT License**.
 ## About
 
 A professional, production-ready backend API for a blogging platform built with Node.js, Express, TypeScript, and MongoDB.
-
-
