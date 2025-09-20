@@ -6,4 +6,5 @@ export const env = {
   MONGODB_URI: process.env.MONGODB_URI || "",
   JWT_SECRET: process.env.JWT_SECRET || "dev-secret",
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN as "1h",
+  FRONTEND_URL: process.env.FRONTEND_URL,
 };
