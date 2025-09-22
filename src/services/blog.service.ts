@@ -83,15 +83,15 @@ export class BlogService {
     return blog;
   }
   static async listPublishedBlogs(query: any) {
-    const {
-      page = 1,
-      limit = 20,
-      search,
-      tags,
-      author,
-      sortBy = "createdAt",
-      order = "desc",
-    } = query;
+    const { search, author, sortBy = "createdAt" } = query;
+
+    const page = Number(query.page) || 1;
+    const limit = Number(query.limit) || 10;
+    let tags = query.tags;
+
+    if (typeof tags === "string") {
+      tags = tags.split(",");
+    }
 
     const filter: any = { state: "published" };
 
@@ -107,17 +107,22 @@ export class BlogService {
       filter.author = author;
     }
 
-    const sort: any = {};
-    sort[sortBy] = order === "asc" ? 1 : -1;
+    let sortCriteria: any = { createdAt: -1 };
+    if (sortBy === "oldest") sortCriteria = { createdAt: 1 };
+    if (sortBy === "popular") sortCriteria = { read_count: -1 };
+    if (sortBy === "likes") sortCriteria = { likes: -1 };
 
     const blogs = await Blog.find(filter)
       .populate("author", "first_name last_name email")
-      .sort(sort)
+      .sort(sortCriteria)
       .skip((page - 1) * limit)
       .limit(limit);
 
     const total = await Blog.countDocuments(filter);
-    return { blogs, total, page, limit };
+    const totalPage = Math.ceil(total / limit);
+    const hasMore = page < totalPage;
+    const nextPage = hasMore ? page + 1 : null;
+    return { blogs, total, page, limit, totalPage, hasMore, nextPage };
   }
   static async getPublishedBlog(blogId: string) {
     const blog = await Blog.findOne({

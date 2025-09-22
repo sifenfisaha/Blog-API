@@ -45,7 +45,7 @@ export const blogQuerySchema = z.object({
     .transform((val) => (val ? parseInt(val) : 20)),
   state: z.enum(["draft", "published"]).optional(),
   search: z.string().optional(),
-  sortBy: z.enum(["read_count", "reading_time", "createdAt"]).optional(),
+  sortBy: z.enum(["oldest", "popular", "likes"]).optional(),
   order: z.enum(["asc", "desc"]).optional(),
 });
 export const publicBlogQuerySchema = z.object({
@@ -63,7 +63,7 @@ export const publicBlogQuerySchema = z.object({
     .optional()
     .transform((val) => (val ? val.split(",") : [])),
   author: z.string().optional(),
-  sortBy: z.enum(["read_count", "reading_time", "createdAt"]).optional(),
+  sortBy: z.enum(["oldest", "popular", "likes"]).optional(),
   order: z.enum(["asc", "desc"]).optional(),
 });
 
