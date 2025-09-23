@@ -63,7 +63,9 @@ export const publicBlogQuerySchema = z.object({
     .optional()
     .transform((val) => (val ? val.split(",") : [])),
   author: z.string().optional(),
-  sortBy: z.enum(["oldest", "popular", "likes"]).optional(),
+  sortBy: z
+    .enum(["latest", "oldest", "popular", "all", "most-read", "trending"])
+    .optional(),
   order: z.enum(["asc", "desc"]).optional(),
 });
 

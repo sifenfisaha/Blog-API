@@ -107,10 +107,15 @@ export class BlogService {
       filter.author = author;
     }
 
-    let sortCriteria: any = { createdAt: -1 };
-    if (sortBy === "oldest") sortCriteria = { createdAt: 1 };
-    if (sortBy === "popular") sortCriteria = { read_count: -1 };
-    if (sortBy === "likes") sortCriteria = { likes: -1 };
+    const sortOptions: Record<string, any> = {
+      all: { createdAt: -1 },
+      latest: { createdAt: -1 },
+      oldest: { createdAt: 1 },
+      popular: { likes: -1 },
+      "most-read": { read_count: -1 },
+      trending: { likes: -1, read_count: -1 },
+    };
+    const sortCriteria = sortOptions[sortBy] || sortOptions["all"];
 
     const blogs = await Blog.find(filter)
       .populate("author", "first_name last_name email")
