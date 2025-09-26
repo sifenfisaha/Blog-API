@@ -89,15 +89,26 @@ export class BlogService {
     const limit = Number(query.limit) || 10;
     let tags = query.tags;
 
-    if (typeof tags === "string") {
-      tags = tags.split(",");
-    }
+   if (typeof tags === "string") {
+    tags = tags.split(",").filter(tag => tag.trim() !== "");
+  }
+
 
     const filter: any = { state: "published" };
 
-    if (search) {
-      filter.title = { $regex: search, $options: "i" };
+    if (tags && tags.length > 0) {
+      filter.tags = { $in: tags };
     }
+
+    if(search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+        { body: { $regex: search, $options: "i" } },
+        { tags: { $regex: search, $options: "i" } },
+      ];
+    }
+     
 
     if (tags && tags.length > 0) {
       filter.tags = { $in: tags };
