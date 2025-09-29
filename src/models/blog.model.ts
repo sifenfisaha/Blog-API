@@ -20,6 +20,7 @@ const blogSchema = new mongoose.Schema<IBlog>(
     state: {
       type: String,
       enum: ["draft", "published"],
+      default: "draft",
       required: true,
     },
     read_count: {
@@ -43,6 +44,15 @@ const blogSchema = new mongoose.Schema<IBlog>(
   },
   { timestamps: true }
 );
+
+blogSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "blog",
+});
+
+blogSchema.set("toObject", { virtuals: true });
+blogSchema.set("toJSON", { virtuals: true });
 
 const Blog = mongoose.model("Blog", blogSchema);
 
