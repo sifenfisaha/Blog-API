@@ -4,6 +4,7 @@ import Blog from "../models/blog.model";
 import { calculateReadingTime } from "../utils/readingTime";
 import { Types } from "mongoose";
 import { UpdateBlog } from "../controllers/blog.controller";
+import Comment from "../models/comment.model";
 
 type CreateInput = z.infer<typeof createBlogSchema> & {
   userId: Types.ObjectId;
@@ -18,10 +19,10 @@ export class BlogService {
     description,
     tags,
     userId,
+    state,
   }: CreateInput) {
     // state, read_count, and reading_time are set by backend
     const authorId = new Types.ObjectId(userId);
-
     const minutes = calculateReadingTime(body);
 
     const blog = new Blog({
@@ -29,9 +30,9 @@ export class BlogService {
       title,
       description,
       tags,
-      state: "draft",
       reading_time: minutes,
       author: authorId,
+      state: state,
     });
     await blog.save();
 
@@ -89,10 +90,9 @@ export class BlogService {
     const limit = Number(query.limit) || 10;
     let tags = query.tags;
 
-   if (typeof tags === "string") {
-    tags = tags.split(",").filter(tag => tag.trim() !== "");
-  }
-
+    if (typeof tags === "string") {
+      tags = tags.split(",").filter((tag) => tag.trim() !== "");
+    }
 
     const filter: any = { state: "published" };
 
@@ -100,7 +100,7 @@ export class BlogService {
       filter.tags = { $in: tags };
     }
 
-    if(search) {
+    if (search) {
       filter.$or = [
         { title: { $regex: search, $options: "i" } },
         { description: { $regex: search, $options: "i" } },
@@ -108,7 +108,6 @@ export class BlogService {
         { tags: { $regex: search, $options: "i" } },
       ];
     }
-     
 
     if (tags && tags.length > 0) {
       filter.tags = { $in: tags };
@@ -130,6 +129,10 @@ export class BlogService {
 
     const blogs = await Blog.find(filter)
       .populate("author", "first_name last_name email")
+      .populate({
+        path: "comments",
+        populate: { path: "author", select: "first_name last_name email" }, // attach user info
+      })
       .sort(sortCriteria)
       .skip((page - 1) * limit)
       .limit(limit);
@@ -144,13 +147,19 @@ export class BlogService {
     const blog = await Blog.findOne({
       _id: blogId,
       state: "published",
-    }).populate("author", "first_name last_name email");
+    })
+      .populate("author", "first_name last_name email")
+      .populate({
+        path: "comments",
+        options: { sort: { createdAt: -1 } },
+        populate: { path: "author", select: "first_name last_name email" }, // attach user info
+      });
 
     if (!blog) throw new Error("Blog not found");
 
     blog.read_count = (blog.read_count || 0) + 1;
     await blog.save();
 
-    return blog;
+    return { blog };
   }
 }
