@@ -6,7 +6,7 @@ import { updateBlogSchema } from "../utils/schemas";
 export type UpdateBlog = z.infer<typeof updateBlogSchema>;
 
 export const createBlog = async (req: Request, res: Response) => {
-  const { body, title, description, tags } = req.body;
+  const { body, title, description, tags, state } = req.body;
   const userId = (req as any).userId;
   try {
     const blog = await BlogService.createBlog({
@@ -15,9 +15,10 @@ export const createBlog = async (req: Request, res: Response) => {
       description,
       tags,
       userId,
+      state,
     });
     return res.status(201).json({
-      message: "Blog created successfully",
+      message: `Blog ${state === "published" ? "published" : "saved as draft"}`,
       blog,
     });
   } catch (error) {
@@ -119,7 +120,7 @@ export const getPublishedBlog = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
 
-    const blog = await BlogService.getPublishedBlog(blogId);
+    const { blog } = await BlogService.getPublishedBlog(blogId);
 
     return res.status(200).json({ success: true, blog });
   } catch (error) {
