@@ -18,9 +18,12 @@ export const loginSchema = z.object({
 
 export const createBlogSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters" }),
-  description: z.string().optional(),
+  description: z
+    .string()
+    .min(3, { message: "Description must be at least 3 characters" }),
   body: z.string().min(10, { message: "Body must be at least 10 characters" }),
   tags: z.array(z.string().min(1, { message: "tags must be at least 1" })),
+  state: z.enum(["draft", "published"]).optional(),
 });
 
 export const updateBlogSchema = z.object({
