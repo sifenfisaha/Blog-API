@@ -27,6 +27,17 @@ export class AuthService {
     });
 
     await user.save();
+    const userId = user._id.toString();
+
+    const token = TokenService.generateToken({ userId });
+    const safeUser = {
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+    };
+
+    return { token, user: safeUser };
   }
   static async login({ email, password }: LoginInput) {
     const user = await User.findOne({ email });
