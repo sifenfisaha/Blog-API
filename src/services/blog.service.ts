@@ -58,6 +58,8 @@ export class BlogService {
   }
   static async updateBlog(data: UpdateBlog, userId: string, blogId: string) {
     const blog = await Blog.findOne({ _id: blogId, author: userId });
+    console.log(blog);
+    console.log("hi");
     if (!blog) throw new Error("Blog not found");
 
     Object.assign(blog, data);

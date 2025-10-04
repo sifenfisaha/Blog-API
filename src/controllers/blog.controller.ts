@@ -53,9 +53,10 @@ export const getMyBlog = async (req: Request, res: Response) => {
 export const updateBlog = async (req: Request, res: Response) => {
   const userId = (req as any).userId;
   const blogId = req.params.id;
-
+  console.log(req.body);
   const data: UpdateBlog = req.body;
   try {
+    console.log(blogId);
     const blog = await BlogService.updateBlog(data, userId, blogId);
     res.status(200).json({
       success: true,

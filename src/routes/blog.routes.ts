@@ -40,7 +40,7 @@ router.post(
 
 router.put(
   "/:id",
-  validate({ body: updateBlogSchema }),
+  validate({ body: createBlogSchema }),
   isAutenticated,
   updateBlog
 );

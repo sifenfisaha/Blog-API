@@ -6,6 +6,7 @@ import likeRouter from "./like.routes";
 import bookmarkRouter from "./bookmark.routes";
 import searchRouter from "./search.routes";
 import tagRouter from "./tag.routes";
+import dashboardRouter from "./dashboard.routes";
 import { Router } from "express";
 
 const router = Router();
@@ -18,5 +19,6 @@ router.use("/like", likeRouter);
 router.use("/bookmarks", bookmarkRouter);
 router.use("/search", searchRouter);
 router.use("/tags", tagRouter);
+router.use("/dashboard", dashboardRouter);
 
 export default router;
